@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ОГЭ по физике — Физические понятия (задание №1)</title>
+<style>
+  :root{
+    --bg: #f4f1ea;
+    --paper: #ffffff;
+    --ink: #23252b;
+    --muted: #6b6f7a;
+    --accent: #b5533c;
+    --accent-dark: #8f3f2c;
+    --good: #3f7a4f;
+    --good-bg: #e8f3ea;
+    --bad: #b5533c;
+    --bad-bg: #fbeae6;
+    --line: #e3ddd0;
+    --letter-bg: #2f3138;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Georgia", "Iowan Old Style", "Times New Roman", serif;
+    line-height:1.5;
+    padding-bottom: 80px;
+  }
+  header{
+    background: var(--letter-bg);
+    color: #f4f1ea;
+    padding: 28px 20px 22px;
+    text-align:center;
+    position:relative;
+  }
+  header h1{
+    margin:0 0 6px;
+    font-size: clamp(20px, 4vw, 30px);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+  header p{
+    margin:0;
+    color:#cfcbc0;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size:13px;
+    letter-spacing:0.4px;
+    text-transform:uppercase;
+  }
+  .toolbar{
+    max-width: 760px;
+    margin: 18px auto 0;
+    padding: 0 16px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  .progress{
+    font-size:13px;
+    color: var(--muted);
+  }
+  .progress b{ color:var(--ink); }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--line);
+    color: var(--muted);
+    padding:6px 12px;
+    border-radius:20px;
+    font-size:12px;
+    cursor:pointer;
+    font-family: inherit;
+  }
+  .reset-btn:hover{ border-color: var(--accent); color: var(--accent); }
+
+  main{
+    max-width: 760px;
+    margin: 18px auto 0;
+    padding: 0 16px;
+    display:flex;
+    flex-direction:column;
+    gap: 18px;
+  }
+
+  .task{
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 22px 18px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .task-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom: 10px;
+    flex-wrap:wrap;
+  }
+  .task-num{
+    font-weight:700;
+    font-size:17px;
+    color: var(--accent-dark);
+  }
+  .task-code{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size:11px;
+    color: var(--muted);
+    letter-spacing:0.3px;
+  }
+  .task-prompt{
+    font-size:14px;
+    color: var(--muted);
+    margin: 0 0 14px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .columns{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+  @media(min-width:600px){
+    .columns{ grid-template-columns: 1fr 1fr; }
+  }
+  .col-title{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .row{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:8px;
+    font-size:15px;
+  }
+  .row .num{
+    flex:none;
+    width: 20px;
+    color: var(--muted);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size:13px;
+    padding-top:1px;
+  }
+  .row .letter-badge{
+    flex:none;
+    width: 22px;
+    height:22px;
+    border-radius:5px;
+    background: var(--letter-bg);
+    color:#f4f1ea;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size:12px;
+    font-weight:600;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .answer-block{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .answer-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background: #faf8f3;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .answer-item .letter-badge{
+    flex:none;
+  }
+  .answer-item select{
+    flex:1;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    padding: 5px 6px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+  }
+  .answer-item select:disabled{
+    opacity: 0.85;
+  }
+
+  .actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  button.act{
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight:600;
+    letter-spacing:0.2px;
+    padding: 9px 16px;
+    border-radius: 22px;
+    border: none;
+    cursor:pointer;
+    transition: transform 0.05s ease;
+  }
+  button.act:active{ transform: scale(0.97); }
+  .btn-check{
+    background: var(--accent);
+    color: #fff;
+  }
+  .btn-check:hover{ background: var(--accent-dark); }
+  .btn-check:disabled{
+    background:#cfc7b8;
+    cursor:default;
+  }
+  .btn-explain{
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    display:none;
+  }
+  .btn-explain.show{ display:inline-block; }
+  .btn-explain:hover{ border-color: var(--accent); color: var(--accent); }
+
+  .btn-retry{
+    background: var(--letter-bg);
+    border: 1px solid var(--letter-bg);
+    color: #fff;
+    display:none;
+  }
+  .btn-retry.show{ display:inline-block; }
+  .btn-retry:hover{ background:#45474f; }
+
+  .stars{
+    display:none;
+    gap: 6px;
+    margin-top: 10px;
+    font-size: 26px;
+    line-height:1;
+    letter-spacing: 4px;
+  }
+  .stars.show{ display:flex; }
+  .stars .star{
+    color: #ddd6c4;
+    transition: color 0.15s ease, transform 0.15s ease;
+  }
+  .stars .star.filled{
+    color: #e0a72e;
+    transform: scale(1.08);
+  }
+
+  .result{
+    margin-top: 12px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+    font-weight:600;
+    display:none;
+    padding: 8px 12px;
+    border-radius: 8px;
+  }
+  .result.good{ display:block; background: var(--good-bg); color: var(--good); }
+  .result.bad{ display:block; background: var(--bad-bg); color: var(--bad); }
+
+  .explanation{
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px dashed var(--line);
+    font-size: 14.5px;
+    display:none;
+  }
+  .explanation.show{ display:block; }
+  .explanation p{ margin: 4px 0; }
+  .explanation .exp-letter{
+    font-weight:700;
+    color: var(--accent-dark);
+  }
+
+  select.correct-mark{ border-color: var(--good) !important; background: var(--good-bg); }
+  select.wrong-mark{ border-color: var(--bad) !important; background: var(--bad-bg); }
+
+  footer{
+    text-align:center;
+    color: var(--muted);
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    font-size: 12px;
+    margin-top: 30px;
+    padding: 0 16px;
+  }
+
+  .filterbar{
+    max-width:760px;
+    margin: 14px auto 0;
+    padding: 0 16px;
+    font-family: "Helvetica Neue", Arial, sans-serif;
+  }
+  .filterbar input{
+    width:100%;
+    padding: 10px 14px;
+    border-radius: 22px;
+    border: 1px solid var(--line);
+    font-size: 14px;
+    font-family: inherit;
+    background: #fff;
+  }
+  .task.hidden{ display:none; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ОГЭ&nbsp;·&nbsp;Физика — задание №1</h1>
+  <p>Физические понятия, величины, явления и приборы · 62 задачи</p>
+</header>
+
+<div class="filterbar">
+  <input type="text" id="searchBox" placeholder="Поиск по номеру или слову (например «электризация»)…">
+</div>
+
+<div class="toolbar">
+  <div class="progress">Решено: <b id="solvedCount">0</b> из <b id="totalCount">62</b></div>
+  <button class="reset-btn" id="resetAll">Сбросить все ответы</button>
+</div>
+
+<main id="taskList"></main>
+
+<footer>Все задачи — банк ФИПИ, ОГЭ по физике. Сделано для тренировки. Ответы и пояснения скрыты до проверки.</footer>
+
+<script>
+const TASKS = [{"num": "1.1", "code": "104889", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["внутренняя энергия", "положительный ион", "взаимодействие молекул", "твёрдое тело", "нанометр"], "ans": [1, 5, 3]}, {"num": "1.2", "code": "104887", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["траектория", "перемещение", "километр", "трение качения", "спидометр"], "ans": [2, 3, 4]}, {"num": "1.3", "code": "104895", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["электризация", "отрицательный ион", "свободный электрон", "электрическое напряжение", "миллиампер"], "ans": [4, 5, 1]}, {"num": "1.4", "code": "104886", "left": ["физическое явление", "физическая величина", "единица физической величины"], "right": ["инерциальная система отсчёта", "неупругая деформация", "Солнечная система", "джоуль", "сила тяжести"], "ans": [2, 5, 4]}, {"num": "1.5", "code": "104885", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["количество теплоты", "джоуль", "калориметр", "испарение", "кристалл"], "ans": [1, 2, 4]}, {"num": "1.6", "code": "104880", "left": ["физическое явление", "физическая величина", "единица физической величины"], "right": ["траектория", "всемирное тяготение", "электрометр", "герц", "длина волны"], "ans": [2, 5, 4]}, {"num": "1.7", "code": "104893", "left": ["физическое явление", "физическая величина", "единица физической величины"], "right": ["оптическая ось линзы", "оптическая сила линзы", "диоптрия", "дисперсия", "телескоп"], "ans": [4, 2, 3]}, {"num": "1.8", "code": "104879", "left": ["физическое явление", "физическая величина", "единица физической величины"], "right": ["система отсчёта", "упругая деформация", "сила трения скольжения", "ньютон", "материальная точка"], "ans": [2, 3, 4]}, {"num": "1.9", "code": "104892", "left": ["физическая величина", "единица физической величины", "физический прибор"], "right": ["электризация", "электрический заряд", "свободный электрон", "электроскоп", "кулон"], "ans": [2, 5, 4]}, {"num": "1.10", "code": "104898", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["фокальная плоскость линзы", "фокусное расстояние линзы", "отражение света", "метр", "микроскоп"], "ans": [2, 4, 3]}, {"num": "1.11", "code": "70683", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["диффузия", "конденсация", "давление", "килограмм", "линейка"], "ans": [3, 4, 5]}, {"num": "1.12", "code": "70501", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["траектория", "средняя скорость", "литр", "измерительный цилиндр", "механическое движение"], "ans": [2, 3, 4]}, {"num": "1.13", "code": "70503", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["барометр", "гектопаскаль", "невесомость", "удельная теплота плавления", "хаотичность движения молекул"], "ans": [4, 2, 1]}, {"num": "1.14", "code": "70510", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["манометр", "гектопаскаль", "невесомость", "давление", "молекула"], "ans": [4, 2, 1]}, {"num": "1.15", "code": "70511", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["кулон", "атом", "ионизация", "энергия", "дозиметр"], "ans": [4, 1, 5]}, {"num": "1.16", "code": "70515", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["амперметр", "ватт", "сила тока", "электрон", "электризация"], "ans": [3, 2, 1]}, {"num": "1.17", "code": "70528", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["теплопередача", "работа силы", "конвекция", "манометр", "миллиметр"], "ans": [2, 5, 4]}, {"num": "1.18", "code": "70684", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["удельная теплоёмкость", "тепловое равновесие", "ртутный барометр", "диффузия газов", "градус Цельсия"], "ans": [1, 5, 3]}, {"num": "1.19", "code": "70686", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["гальванометр", "ампер", "электрический ток", "электрическое напряжение", "ион"], "ans": [4, 2, 1]}, {"num": "1.20", "code": "70687", "left": ["физическая величина", "единица физической величины", "физический прибор"], "right": ["дисперсия", "лупа", "секунда", "мощность", "луч света"], "ans": [4, 3, 2]}, {"num": "1.21", "code": "109867", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["испарение воды", "давление", "парообразование", "психрометр", "миллиметр"], "ans": [2, 5, 4]}, {"num": "1.22", "code": "70513", "left": ["физическая величина", "единица физической величины", "физический прибор"], "right": ["оптическая ось линзы", "оптическая сила линзы", "диоптрия", "дисперсия", "оптический микроскоп"], "ans": [2, 3, 5]}, {"num": "1.23", "code": "70694", "left": ["физическая величина", "единица физической величины", "физический прибор"], "right": ["преломление света", "поперечная волна", "герц", "длина волны", "призма"], "ans": [4, 3, 5]}, {"num": "1.24", "code": "70695", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["ньютон", "инерция", "масса", "кристалл", "весы"], "ans": [3, 1, 5]}, {"num": "1.25", "code": "70698", "left": ["физическая величина", "единица физической величины", "физический прибор"], "right": ["мощность излучения", "индивидуальный дозиметр", "естественная радиоактивность", "альфа-частица", "джоуль"], "ans": [1, 5, 2]}, {"num": "1.26", "code": "41437", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["молекула", "плавление", "объём", "миллиметр", "динамометр"], "ans": [3, 4, 5]}, {"num": "1.27", "code": "70712", "left": ["физическая величина", "единица физической величины", "прибор для измерения физической величины"], "right": ["электронный секундомер", "равномерное движение", "центростремительное ускорение", "минута", "траектория"], "ans": [3, 4, 1]}, {"num": "1.28", "code": "104854", "left": ["физическая величина", "единица физической величины", "физическое явление"], "right": ["энергия", "конвекция", "молекула", "нанометр", "кристалл"], "ans": [1, 4, 2]}, {"num": "1.29", "code": "109868", "left": ["перемещение", "ускорение", "скорость"], "right": ["векторная физическая величина, характеризующая быстроту изменения скорости тела", "линия, по которой движется тело", "векторная физическая величина, характеризующая направление и быстроту перемещения тела", "вектор, соединяющий начальное положение тела с последующим положением", "длина траектории"], "ans": [4, 1, 3]}, {"num": "1.30", "code": "109869", "left": ["траектория", "масса", "перемещение"], "right": ["линия, по которой движется тело", "способность тела сохранять свою форму", "мера инертности тела", "вектор, соединяющий начальное положение тела с последующим положением", "длина линии, по которой двигалось тело"], "ans": [1, 3, 4]}, {"num": "1.31", "code": "104851", "left": ["кинетическая энергия тела", "абсолютная влажность воздуха", "внутренняя энергия тела"], "right": ["энергия движения тела", "мера инертности тела", "плотность водяного пара в воздухе", "интенсивность испарения жидкости", "энергия движения и взаимодействия молекул тела"], "ans": [1, 3, 5]}, {"num": "1.32", "code": "104852", "left": ["плотность", "жёсткость пружины", "сила трения скольжения"], "right": ["коэффициент, который связывает силу, прилагаемую к пружине, с её удлинением или сжатием", "сила, возникающая при движении одного тела по поверхности другого и направленная противоположно направлению относительного движения", "коэффициент, зависящий от деформации тела", "физическая величина, которая показывает, какой массой обладает вещество, занимающее единицу объёма", "физическая величина, которая зависит от вещества, из которого изготовлено тело"], "ans": [4, 1, 2]}, {"num": "1.33", "code": "170823", "left": ["количество теплоты", "удельная теплоёмкость вещества", "удельная теплота плавления"], "right": ["энергия, которую получает или теряет тело при теплопередаче", "энергия, которую отдаёт 1 кг вещества при нагревании на 1 °C", "энергия, необходимая для плавления вещества при температуре плавления", "отношение получаемого телом количества теплоты к массе тела и изменению его температуры в данном агрегатном состоянии", "отношение количества теплоты, необходимого для плавления вещества, нагретого до температуры плавления, к массе этого вещества"], "ans": [1, 4, 5]}, {"num": "1.34", "code": "104890", "left": ["количество теплоты", "удельная теплоёмкость вещества", "удельная теплота плавления"], "right": ["энергия, которую получает или теряет тело при теплопередаче", "отношение получаемого телом количества теплоты к массе тела и изменению его температуры в данном агрегатном состоянии", "энергия, необходимая для плавления вещества при температуре плавления", "энергия, необходимая для нагревания вещества в данном агрегатном состоянии на 1 °C", "отношение количества теплоты, выделяемого в процессе кристаллизации жидкостью, охлаждённой до температуры кристаллизации, к массе этой жидкости"], "ans": [1, 2, 5]}, {"num": "1.35", "code": "104856", "left": ["кинетическая энергия тела", "масса", "скорость"], "right": ["энергия движения тела", "мера инертности тела и гравитационного взаимодействия", "векторная физическая величина, характеризующая воздействие одного тела на другое", "векторная физическая величина, характеризующая направление и быстроту перемещения тела", "энергия движения и взаимодействия молекул тела"], "ans": [1, 2, 4]}, {"num": "1.36", "code": "104891", "left": ["удельная теплота сгорания топлива", "удельная теплоёмкость вещества", "удельная теплота плавления"], "right": ["энергия, которая выделяется при сгорании топлива", "отношение получаемого телом количества теплоты к массе тела и изменению его температуры в данном агрегатном состоянии", "отношение количества теплоты, выделяемого в процессе кристаллизации жидкостью, охлаждённой до температуры кристаллизации, к массе этой жидкости", "энергия, необходимая для плавления вещества при температуре плавления", "отношение количества теплоты, выделяемого при сгорании топлива, к массе сгоревшего топлива"], "ans": [5, 2, 3]}, {"num": "1.37", "code": "104894", "left": ["отношение заряда, прошедшего через поперечное сечение проводника, к затраченному на это времени", "отношение работы электрического поля по перемещению заряда из одной точки в другую к величине этого заряда", "физическая величина, характеризующая способность частиц или тел вступать в электромагнитные взаимодействия"], "right": ["удельное электрическое сопротивление проводника", "сила тока", "электрический заряд", "электрическое сопротивление", "электрическое напряжение"], "ans": [2, 5, 3]}, {"num": "1.38", "code": "104883", "left": ["скорость", "ускорение", "масса"], "right": ["энергия движения тела", "мера инертности тела и гравитационного взаимодействия", "векторная физическая величина, характеризующая воздействие одного тела на другое", "векторная физическая величина, характеризующая направление и быстроту перемещения тела", "векторная физическая величина, определяющая быстроту изменения скорости тела"], "ans": [4, 5, 2]}, {"num": "1.39", "code": "104896", "left": ["сила тока", "электрическое напряжение", "электрический заряд"], "right": ["упорядоченное движение заряженных частиц в проводнике под действием электрического поля", "отношение заряда, прошедшего через поперечное сечение, к затраченному на это времени", "физическая величина, характеризующая способность частиц или тел вступать в электромагнитное взаимодействие", "физическая величина, равная отношению работы электрического поля по перемещению единичного заряда из одной точки в другую к величине этого заряда", "физическая величина, которая зависит от электрических свойств вещества и величины электрического поля"], "ans": [2, 4, 3]}, {"num": "1.40", "code": "104888", "left": ["сила", "ускорение", "масса"], "right": ["энергия движения тела", "мера инертности тела и гравитационного взаимодействия", "векторная физическая величина, характеризующая воздействие одного тела на другое", "векторная физическая величина, характеризующая направление и быстроту перемещения тела", "векторная физическая величина, определяющая быстроту изменения скорости тела"], "ans": [3, 5, 2]}, {"num": "1.41", "code": "104897", "left": ["отношение заряда, прошедшего через поперечное сечение проводника, к затраченному на это времени", "физическая величина, которая характеризует способность электрического проводника препятствовать прохождению электрического тока", "характеристика материала, определяющая его способность проводить электрический ток"], "right": ["удельное электрическое сопротивление проводника", "сила тока", "электрический заряд", "электрическое сопротивление", "электрическое напряжение"], "ans": [2, 4, 1]}, {"num": "1.42", "code": "70505", "left": ["количество теплоты", "мощность", "удельная теплота сгорания топлива"], "right": ["джоуль (1 Дж)", "джоуль на килограмм (1 Дж/кг)", "ватт (1 Вт)", "вольт (1 В)", "ньютон (1 Н)"], "ans": [1, 3, 2]}, {"num": "1.43", "code": "70509", "left": ["скорость", "сила", "масса"], "right": ["грамм (1 г)", "килограмм (1 кг)", "километр в час (1 км/ч)", "метр в секунду (1 м/с)", "ньютон (1 Н)"], "ans": [4, 5, 2]}, {"num": "1.44", "code": "86142", "left": ["сила тока", "мощность", "сопротивление"], "right": ["ом (1 Ом)", "вольт (1 В)", "ватт (1 Вт)", "ампер (1 А)", "джоуль (1 Дж)"], "ans": [4, 3, 1]}, {"num": "1.45", "code": "86148", "left": ["внутренняя энергия", "удельная теплота плавления", "удельная теплоёмкость"], "right": ["джоуль (1 Дж)", "джоуль на килограмм (1 Дж/кг)", "джоуль на килограмм-градус Цельсия", "джоуль на градус Цельсия", "джоуль-килограмм"], "ans": [1, 2, 3]}, {"num": "1.46", "code": "70517", "left": ["атмосферное давление", "объём", "масса"], "right": ["миллиметр ртутного столба (1 мм рт. ст.)", "литр (1 л)", "кубический метр (1 м³)", "килограмм (1 кг)", "паскаль (1 Па)"], "ans": [5, 3, 4]}, {"num": "1.47", "code": "70518", "left": ["сила", "плечо силы", "момент силы"], "right": ["джоуль (1 Дж)", "ньютон-метр (1 Н·м)", "ватт (1 Вт)", "метр (1 м)", "ньютон (1 Н)"], "ans": [5, 4, 2]}, {"num": "1.48", "code": "70519", "left": ["электрическое напряжение", "электрический заряд", "работа электрического тока"], "right": ["кулон (1 Кл)", "вольт (1 В)", "ватт (1 Вт)", "ампер (1 А)", "джоуль (1 Дж)"], "ans": [2, 1, 5]}, {"num": "1.49", "code": "70520", "left": ["удельная теплота сгорания топлива", "внутренняя энергия", "удельная теплоёмкость вещества"], "right": ["джоуль (1 Дж)", "джоуль на килограмм (1 Дж/кг)", "джоуль на килограмм-градус Цельсия", "джоуль на градус Цельсия", "джоуль-килограмм"], "ans": [2, 1, 3]}, {"num": "1.50", "code": "70521", "left": ["сила", "сила тока", "мощность тока"], "right": ["ньютон (1 Н)", "ампер (1 А)", "ватт (1 Вт)", "джоуль (1 Дж)", "вольт (1 В)"], "ans": [1, 2, 3]}, {"num": "1.51", "code": "70524", "left": ["импульс тела", "мощность", "работа"], "right": ["вольт (1 В)", "ньютон-секунда (1 Н·с)", "ватт (1 Вт)", "ньютон (1 Н)", "джоуль (1 Дж)"], "ans": [2, 3, 5]}, {"num": "1.52", "code": "70526", "left": ["работа тока", "мощность тока", "сила тока"], "right": ["джоуль (1 Дж)", "ватт (1 Вт)", "ампер (1 А)", "вольт (1 В)", "ньютон (1 Н)"], "ans": [1, 2, 3]}, {"num": "1.53", "code": "70527", "left": ["сила", "момент силы", "работа силы"], "right": ["килограмм (1 кг)", "ньютон (1 Н)", "ньютон-метр (1 Н·м)", "ньютон на метр (1 Н/м)", "джоуль (1 Дж)"], "ans": [2, 3, 5]}, {"num": "1.54", "code": "70685", "left": ["сила тока", "электрическое сопротивление", "электрический заряд"], "right": ["кулон (1 Кл)", "ватт (1 Вт)", "ампер (1 А)", "вольт (1 В)", "ом (1 Ом)"], "ans": [3, 5, 1]}, {"num": "1.55", "code": "109866", "left": ["сила", "механическая работа", "мощность"], "right": ["ватт (1 Вт)", "джоуль (1 Дж)", "ньютон (1 Н)", "паскаль (1 Па)", "вольт (1 В)"], "ans": [3, 2, 1]}, {"num": "1.56", "code": "70697", "left": ["электрическое напряжение", "электрическое сопротивление", "электрический заряд"], "right": ["кулон (1 Кл)", "ватт (1 Вт)", "ампер (1 А)", "вольт (1 В)", "ом (1 Ом)"], "ans": [4, 5, 1]}, {"num": "1.57", "code": "70699", "left": ["электрическое напряжение", "мощность электрического тока", "электрический заряд"], "right": ["кулон (1 Кл)", "ватт (1 Вт)", "ампер (1 А)", "вольт (1 В)", "ом (1 Ом)"], "ans": [4, 2, 1]}, {"num": "1.58", "code": "70703", "left": ["длина волны", "частота колебаний", "период колебаний"], "right": ["метр (1 м)", "герц (1 Гц)", "секунда (1 с)", "ньютон на метр (1 Н/м)", "метр в секунду (1 м/с)"], "ans": [1, 2, 3]}, {"num": "1.59", "code": "70706", "left": ["удельное электрическое сопротивление", "удельная теплоёмкость вещества", "удельная теплота конденсации"], "right": ["ом (1 Ом)", "ом-метр (1 Ом·м)", "джоуль на килограмм (1 Дж/кг)", "джоуль на килограмм-градус Цельсия", "джоуль на градус Цельсия"], "ans": [2, 4, 3]}, {"num": "1.60", "code": "40032", "left": ["электрическое напряжение", "электрическое сопротивление", "электрический заряд"], "right": ["ом (1 Ом)", "кулон (1 Кл)", "джоуль (1 Дж)", "паскаль (1 Па)", "вольт (1 В)"], "ans": [5, 1, 2]}, {"num": "1.61", "code": "70711", "left": ["жёсткость пружины", "момент силы", "вес тела"], "right": ["килограмм (1 кг)", "ньютон (1 Н)", "ньютон-метр (1 Н·м)", "ньютон на метр (1 Н/м)", "джоуль (1 Дж)"], "ans": [4, 3, 2]}, {"num": "1.62", "code": "70523", "left": ["масса", "сила", "ускорение"], "right": ["изменение положения тела", "инертность тела", "взаимодействие тел", "быстрота движения", "быстрота изменения скорости"], "ans": [2, 3, 5]}];
+</script>
+<script>
+(function () {
+  const letters = ["А", "Б", "В"];
+  const listEl = document.getElementById("taskList");
+  const solvedCountEl = document.getElementById("solvedCount");
+  const totalCountEl = document.getElementById("totalCount");
+  const searchBox = document.getElementById("searchBox");
+  const resetAllBtn = document.getElementById("resetAll");
+
+  totalCountEl.textContent = TASKS.length;
+
+  const solved = new Set();
+
+  function updateProgress() {
+    solvedCountEl.textContent = solved.size;
+  }
+
+  function buildTask(task, index) {
+    const wrap = document.createElement("section");
+    wrap.className = "task";
+    wrap.dataset.search = (
+      "задача " + task.num + " " + task.code + " " +
+      task.left.join(" ") + " " + task.right.join(" ")
+    ).toLowerCase();
+
+    // Header
+    const head = document.createElement("div");
+    head.className = "task-head";
+    head.innerHTML =
+      '<span class="task-num">Задача ' + task.num + '</span>' +
+      '<span class="task-code">#' + task.code + " · Банк ФИПИ" + '</span>';
+    wrap.appendChild(head);
+
+    const prompt = document.createElement("p");
+    prompt.className = "task-prompt";
+    prompt.textContent =
+      "Установите соответствие. К каждой позиции первого столбца подберите " +
+      "соответствующую позицию из второго столбца.";
+    wrap.appendChild(prompt);
+
+    // Columns display (left terms & right terms, read-only reference)
+    const columns = document.createElement("div");
+    columns.className = "columns";
+
+    const leftCol = document.createElement("div");
+    leftCol.innerHTML = '<p class="col-title">Понятия</p>';
+    task.left.forEach((text, i) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML =
+        '<span class="letter-badge">' + letters[i] + '</span><span>' + text + '</span>';
+      leftCol.appendChild(row);
+    });
+    columns.appendChild(leftCol);
+
+    const rightCol = document.createElement("div");
+    rightCol.innerHTML = '<p class="col-title">Примеры</p>';
+    task.right.forEach((text, i) => {
+      const row = document.createElement("div");
+      row.className = "row";
+      row.innerHTML =
+        '<span class="num">' + (i + 1) + '.</span><span>' + text + '</span>';
+      rightCol.appendChild(row);
+    });
+    columns.appendChild(rightCol);
+
+    wrap.appendChild(columns);
+
+    // Answer selectors
+    const answerBlock = document.createElement("div");
+    answerBlock.className = "answer-block";
+    const selects = [];
+    task.left.forEach((text, i) => {
+      const item = document.createElement("div");
+      item.className = "answer-item";
+      const badge = document.createElement("span");
+      badge.className = "letter-badge";
+      badge.textContent = letters[i];
+      const select = document.createElement("select");
+      const emptyOpt = document.createElement("option");
+      emptyOpt.value = "";
+      emptyOpt.textContent = "—";
+      select.appendChild(emptyOpt);
+      task.right.forEach((_, ri) => {
+        const opt = document.createElement("option");
+        opt.value = ri + 1;
+        opt.textContent = ri + 1;
+        select.appendChild(opt);
+      });
+      item.appendChild(badge);
+      item.appendChild(select);
+      answerBlock.appendChild(item);
+      selects.push(select);
+    });
+    wrap.appendChild(answerBlock);
+
+    // Actions
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    const checkBtn = document.createElement("button");
+    checkBtn.className = "act btn-check";
+    checkBtn.textContent = "Проверить ответ";
+    const explainBtn = document.createElement("button");
+    explainBtn.className = "act btn-explain";
+    explainBtn.textContent = "Показать пояснение";
+    const retryBtn = document.createElement("button");
+    retryBtn.className = "act btn-retry";
+    retryBtn.textContent = "Ответить ещё раз";
+    actions.appendChild(checkBtn);
+    actions.appendChild(explainBtn);
+    actions.appendChild(retryBtn);
+    wrap.appendChild(actions);
+
+    // Result + explanation
+    const result = document.createElement("div");
+    result.className = "result";
+    wrap.appendChild(result);
+
+    const stars = document.createElement("div");
+    stars.className = "stars";
+    stars.innerHTML =
+      '<span class="star" data-i="1">★</span><span class="star" data-i="2">★</span>';
+    wrap.appendChild(stars);
+
+    const explanation = document.createElement("div");
+    explanation.className = "explanation";
+    let expHtml = "";
+    task.left.forEach((leftText, i) => {
+      const correctIndex = task.ans[i] - 1;
+      const rightText = task.right[correctIndex];
+      expHtml +=
+        "<p><span class='exp-letter'>" + letters[i] + "</span> — «" +
+        leftText + "» соответствует примеру " + task.ans[i] + " — «" +
+        rightText + "».</p>";
+    });
+    explanation.innerHTML = expHtml;
+    wrap.appendChild(explanation);
+
+    checkBtn.addEventListener("click", () => {
+      let allFilled = selects.every((s) => s.value !== "");
+      if (!allFilled) {
+        result.className = "result bad";
+        result.textContent = "Заполните все поля ответа перед проверкой.";
+        return;
+      }
+      let allCorrect = true;
+      let mistakes = 0;
+      selects.forEach((s, i) => {
+        const isCorrect = parseInt(s.value, 10) === task.ans[i];
+        s.classList.remove("correct-mark", "wrong-mark");
+        s.classList.add(isCorrect ? "correct-mark" : "wrong-mark");
+        s.disabled = true;
+        if (!isCorrect) {
+          allCorrect = false;
+          mistakes++;
+        }
+      });
+      checkBtn.disabled = true;
+      explainBtn.classList.add("show");
+      retryBtn.classList.add("show");
+      result.className = "result " + (allCorrect ? "good" : "bad");
+      result.textContent = allCorrect
+        ? "Верно! Все соответствия установлены правильно."
+        : "Есть ошибки — неверные поля подсвечены. Посмотрите пояснение ниже.";
+
+      const earnedStars = mistakes === 0 ? 2 : mistakes === 1 ? 1 : 0;
+      stars.classList.add("show");
+      stars.querySelectorAll(".star").forEach((st) => {
+        const filled = parseInt(st.dataset.i, 10) <= earnedStars;
+        st.classList.toggle("filled", filled);
+      });
+      stars.dataset.earned = earnedStars;
+
+      if (!solved.has(index)) {
+        solved.add(index);
+        updateProgress();
+      }
+    });
+
+    explainBtn.addEventListener("click", () => {
+      explanation.classList.toggle("show");
+      explainBtn.textContent = explanation.classList.contains("show")
+        ? "Скрыть пояснение"
+        : "Показать пояснение";
+    });
+
+    retryBtn.addEventListener("click", () => {
+      wrap._reset();
+      updateProgress();
+      wrap.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    wrap._reset = function () {
+      selects.forEach((s) => {
+        s.value = "";
+        s.disabled = false;
+        s.classList.remove("correct-mark", "wrong-mark");
+      });
+      checkBtn.disabled = false;
+      explainBtn.classList.remove("show");
+      explainBtn.textContent = "Показать пояснение";
+      retryBtn.classList.remove("show");
+      explanation.classList.remove("show");
+      result.className = "result";
+      result.textContent = "";
+      stars.classList.remove("show");
+      stars.querySelectorAll(".star").forEach((st) => st.classList.remove("filled"));
+      delete stars.dataset.earned;
+      solved.delete(index);
+    };
+
+    return wrap;
+  }
+
+  const taskEls = [];
+  TASKS.forEach((task, i) => {
+    const el = buildTask(task, i);
+    listEl.appendChild(el);
+    taskEls.push(el);
+  });
+  updateProgress();
+
+  resetAllBtn.addEventListener("click", () => {
+    taskEls.forEach((el) => el._reset());
+    updateProgress();
+  });
+
+  searchBox.addEventListener("input", () => {
+    const q = searchBox.value.trim().toLowerCase();
+    taskEls.forEach((el) => {
+      el.classList.toggle("hidden", q !== "" && !el.dataset.search.includes(q));
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
